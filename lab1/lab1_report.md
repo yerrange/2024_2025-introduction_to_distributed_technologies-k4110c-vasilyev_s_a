@@ -16,6 +16,14 @@ Date of create: 13.12.2024
 
 Date of finished: none
 
+# Описание
+Это первая лабораторная работа в которой вы сможете протестировать Docker, установить Minikube и развернуть свой первый "под".
+
+# Цель работы
+Ознакомиться с инструментами Minikube и Docker, развернуть свой первый "под".
+
+# Ход работы
+
 ## 0. Установка Docker и Minikube
 
 1. Скачать и установить [Docker](https://docs.docker.com/desktop/), следуя официальным инструкциям
@@ -59,21 +67,6 @@ spec:
 
 ```yaml
 apiVersion: v1
-kind: Pod                                            
-metadata:
-  name: vault
-  labels:
-    app: vault                         
-spec:                                                
-  containers:
-    - image: hashicorp/vault:latest # ссылка на образ (dockerhub)
-      name: vault                             
-      ports:
-      - containerPort: 8200 # порт, на котором контейнер принимает запросы
-
----
-
-apiVersion: v1
 kind: Service
 metadata:
   name: vault-service
@@ -86,6 +79,40 @@ spec:
   ports:
     - port: 8200 # внешний порт
       targetPort: 8200 # внутренний порт пода
+      protocol: TCP  
+```
+
+### Финальный манифест
+
+```yaml
+apiVersion: v1
+kind: Pod                                            
+metadata:
+  name: vault
+  labels:
+    app: vault                         
+spec:                                                
+  containers:
+    - image: hashicorp/vault:latest 
+      name: vault                             
+      ports:
+      - containerPort: 8200
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault-service
+  labels:
+    app: vault  
+spec:
+  selector:
+    app: vault 
+  type: NodePort
+  ports:
+    - port: 8200 
+      targetPort: 8200
       protocol: TCP  
 ```
 
@@ -106,8 +133,6 @@ kubectl get pods
 
 4. Перенаправить порт Service на локальный порт
 
- 
-
 ```bash
 kubectl -- port-forward service/vault-service 8200:8200
 ```
@@ -123,6 +148,12 @@ kubectl logs vault
 8. Залогиниться на сайте с помощью Root Token
 
 ![result.jpg](images/result.jpg)
+
+9. Остановить Minikube
+
+```bash
+minikube stop
+```
 
 ### Схема организации контейнеров и служб
 
