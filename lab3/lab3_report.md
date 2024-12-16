@@ -262,4 +262,4 @@ minikube tunnel
 
 ### Схема организации контейнеров и служб
 
-![arrangement_scheme.drawio](images/arrangement_scheme.drawio)
+![arrangement_scheme.drawio.png](images/arrangement_scheme.drawio.png)
