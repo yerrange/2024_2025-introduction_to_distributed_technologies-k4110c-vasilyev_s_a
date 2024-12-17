@@ -201,7 +201,7 @@ kubectl exec app-5d68fbcfcf-nnntf -- nslookup 192.168.1.193
 3. Выполнить команду ping из контейнера по FQDN другого контейнера
 
 ```bash
-
+kubectl exec app-5d68fbcfcf-nnntf -- ping 192-168-1-193.frontend-service.default.svc.cluster.local
 ```
 
 ![ping_result.jpg](images/ping_result.jpg)
