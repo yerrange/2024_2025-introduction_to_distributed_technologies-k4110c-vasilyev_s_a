@@ -10,7 +10,7 @@ Group: K4110c
 
 Author: Vasilyev Stepan Aleksandrovich
 
-Lab: Lab2
+Lab: Lab3
 
 Date of create: 15.12.2024
 

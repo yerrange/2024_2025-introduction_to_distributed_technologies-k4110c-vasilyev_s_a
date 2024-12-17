@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-env
+data:
+  REACT_APP_USERNAME: "yerrange"
+  REACT_APP_COMPANY_NAME: "feel_good_inc"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  labels:
+    app: app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - image: ifilyaninitmo/itdt-contained-frontend:master
+          name: frontend-container
+          ports:
+            - containerPort: 3000
+          envFrom:
+          - configMapRef:
+              name: frontend-env
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  selector:
+    app: frontend
+  type: LoadBalancer
+  ports:
+    - port: 8200
+      targetPort: 3000
+      protocol: TCP
